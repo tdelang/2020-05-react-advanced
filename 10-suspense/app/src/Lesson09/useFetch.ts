@@ -1,12 +1,12 @@
 const cache: { [key: string]: any } = {};
 
-const useFetch = (url: string) => {
+const useFetch = <T>(url: string): T => {
   const entry = cache[url];
   if (entry) {
     if (entry.error) {
       throw entry.error;
     } else if (entry.data) {
-      return entry.data;
+      return entry.data as T;
     } else {
       throw entry.request;
     }

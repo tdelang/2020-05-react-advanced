@@ -1,12 +1,21 @@
+/**
+ * Uses a cache to store the requests incl. the response or error.
+ *
+ * One issue here is that the cache for an URL is never invalidated.
+ * Some form of cache invalidation would be required.
+ *
+ * Note: This doesn't allow for any preloading, but we will get to it later.
+ */
+
 const cache: { [key: string]: any } = {};
 
-const useFetch = (url: string) => {
+const useFetch = <T>(url: string): T => {
   const entry = cache[url];
   if (entry) {
     if (entry.error) {
       throw entry.error;
     } else if (entry.data) {
-      return entry.data;
+      return entry.data as T;
     } else {
       throw entry.request;
     }
